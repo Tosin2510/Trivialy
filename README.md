@@ -1,17 +1,25 @@
-# trivialy
+# Trivialy
 
-A new Flutter project.
+A beautifully responsive, minimalist trivia application built using the Flutter framework. This project focuses on high-quality visual polish, clean state tracking, and fluid user interactions without overcomplicating the underlying architecture.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Live Trivia Stream:Dynamically pulls fresh, categorized questions across multiple topics (Science, History, Sports, General Knowledge) using the free Open Trivia Database API.
+- Beat the Clock: Every question features an intense 15-second countdown timer, driven by a reactive progress bar using asynchronous Dart streams.
+- Localized Persistence: Keeps users engaged by caching their personal best scores directly to device memory, ensuring high scores persist across app restarts.
+- Premium Minimalist UI:Designed with clean and simple UI
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack & Packages
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Framework: Flutter & Dart
+- UI Architecture: Material 3 (Custom Light Theme)
+- State Management: Local State
+- Networking: [http](https://pub.dev/packages/http) for REST API requests
+- Local Caching: [shared_preferences](https://pub.dev/packages/shared_preferences) for high-score tracking
+- Text Cleaning: [html_character_entities](https://pub.dev/packages/html_character_entities) to parse raw API text formats smoothly
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📦 Installation & Setup
+
+1. Clone the repository and navigate into the project directory:
+git clone https://github.com/Tosin2510/Trivialy.git
+cd Trivialy
