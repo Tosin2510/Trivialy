@@ -4,6 +4,7 @@ import 'package:trivialy/custom_bottom_nav_bar.dart';
 import 'package:trivialy/dashboard_header.dart';
 import 'package:trivialy/gold_league_banner.dart';
 import 'package:trivialy/personal_best_banner.dart';
+import 'package:trivialy/profile_screen.dart';
 import 'package:trivialy/quiz_setup_screen.dart';
 import 'package:trivialy/section_title.dart';
 import 'package:trivialy/weekly_challenge_banner.dart';
@@ -30,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isMultiSelect = false;
   final Set<String> _selectedCategories = {};
   final List<Map<String, dynamic>> _extraCategories = [
-    {'title': 'Mathematics', 'icon': Icons.calculate_outlined, 'color': Colors.indigo},
-    {'title': 'English Language', 'icon': Icons.translate_rounded, 'color': Colors.amber},
     {'title': 'Entertainment', 'icon': Icons.movie_creation_outlined, 'color': Colors.deepOrange},
-    {'title': 'Animals', 'icon': Icons.pets_rounded, 'color': Colors.orange},
     {'title': 'Art', 'icon': Icons.palette_outlined, 'color': Colors.purple},
+    {'title': 'Geography', 'icon': Icons.public_rounded, 'color': Colors.teal},
+    {'title': 'Music', 'icon': Icons.music_note_rounded, 'color': Colors.pink},
+    {'title': 'Food & Drink', 'icon': Icons.restaurant_rounded, 'color': Colors.deepPurple},
   ];
 
   @override
@@ -230,7 +231,21 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 0) return;
+
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen()
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 
