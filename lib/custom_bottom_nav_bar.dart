@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({super.key});
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const CustomBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap
+    });
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -12,6 +20,7 @@ class CustomBottomNavBar extends StatelessWidget {
       selectedItemColor: const Color(0xFF2563EB),
       unselectedItemColor: Colors.grey.withValues(alpha: 0.6),
       currentIndex: 0,
+      onTap: onTap,
       iconSize: iconSize,
       selectedLabelStyle: TextStyle(
         fontSize: labelSize,
@@ -23,7 +32,7 @@ class CustomBottomNavBar extends StatelessWidget {
       ),
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.track_changes_outlined), label: 'Play'),
+        BottomNavigationBarItem(icon: Icon(Icons.emoji_events_rounded), label: 'Ranks'),
         BottomNavigationBarItem(icon: Icon(Icons.person_outline_rounded), label: 'Profile')
       ],
     );
