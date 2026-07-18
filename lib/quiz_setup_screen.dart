@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivialy/features/quiz/presentation/quiz_screen.dart';
 class QuizSetupScreen extends StatefulWidget {
   final Set<String> selectedCategories;
   final IconData categoryIcon;
@@ -13,7 +14,7 @@ class QuizSetupScreen extends StatefulWidget {
 class _QuizSetupScreenState extends State<QuizSetupScreen> {
   int _questionCount = 10;
   String _difficulty = 'Medium';
-  final List<int> _questionOptions = [10, 20, 30, 40, 50, 60];
+  final List<int> _questionOptions = [10, 20, 30, 40, 50];
   final List<String> _difficultyLevels = ['Easy', 'Medium', 'Hard'];
   final List<String> _timeOptions = ['5 mins', '10 mins', '15 mins', '20 mins', '30 mins'];
   late final TextEditingController _timeController;
@@ -326,7 +327,18 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint('Starting $_difficulty quiz with $_questionCount questions that will last for ${_timeController.text}');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizScreen(
+                          categoryTitle: displayTitle,
+                          amount: _questionCount,
+                          difficulty: _difficulty.toLowerCase(),
+                          categoryIds: _resolveCategoryIds(),
+                          timeLimit: _parseTimeLimit(),
+                        )
+                        )
+                      );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
@@ -350,6 +362,13 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
         ))
     );
   }
+Duration _parseTimeLimit() {
+  final String text = _timeController.text.trim();
+  final RegExp digitsOnly = RegExp(r'\d+');
+  final Match? match = digitsOnly.firstMatch(text);
+  final int minutes = match != null ? int.parse(match.group(0)!) : 10;
+  return Duration(minutes: minutes);
+}
 Widget _buildRuleRow(IconData icon, String rule) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,4 +391,22 @@ Widget _buildRuleRow(IconData icon, String rule) {
     ]
   );
 }
+List<String> _resolveCategoryIds() {
+  const Map<String, String> categoryNames = {
+    'General Knowledge': 'general_knowledge',
+    'Science': 'science',
+    'History': 'history',
+    'Sports': 'sport_and_leisure',
+    'Entertainment': 'film_and_tv',
+    'Art': 'arts_and_literature',
+    'Geography' : 'geography',
+    'Music' : 'music',
+    'Food & Drink': 'food_and_drink',
+  };
+
+  return widget.selectedCategories
+     .map((title) => categoryNames[title])
+     .whereType<String>()
+     .toList();
+  }
 }
