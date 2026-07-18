@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1076750775032",
+    "project_id": "trivialy-64a5d",
+    "storage_bucket": "trivialy-64a5d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076750775032:android:f3167af331bdee7ca4c10d",
+        "android_client_info": {
+          "package_name": "com.example.trivialy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076750775032-r313h93arlg9p4o7p60sc26ijiibfhgo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trivialy",
+            "certificate_hash": "ae676ec32fb3b332ec14318c2e71cc84d7046e7d"
+          }
+        },
+        {
+          "client_id": "1076750775032-r8bsqi4ia18m72hr5jl9uodj0tocuc94.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiY6-n_ggwrAqBtISZQrwz3GnlnvaoMek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076750775032-r8bsqi4ia18m72hr5jl9uodj0tocuc94.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1076750775032-g5lakk0cpptkdj5pvdsqm1ld524godva.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trivialy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
