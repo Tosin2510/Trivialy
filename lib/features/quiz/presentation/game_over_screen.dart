@@ -10,6 +10,7 @@ class GameOverScreen extends StatelessWidget{
   final VoidCallback onPlayAgain;
   final VoidCallback onReviewAnswers;
   final VoidCallback onBackToHome;
+  final bool isWeeklyChallenge;
 
   const GameOverScreen({
     super.key,
@@ -22,6 +23,7 @@ class GameOverScreen extends StatelessWidget{
     required this.onPlayAgain,
     required this.onReviewAnswers,
     required this.onBackToHome,
+    this.isWeeklyChallenge = false
   });
   @override
   Widget build(BuildContext context) {
@@ -152,7 +154,7 @@ class GameOverScreen extends StatelessWidget{
                           child: SizedBox(
                             height: 52,
                             child: ElevatedButton(
-                              onPressed: onPlayAgain, 
+                              onPressed: isWeeklyChallenge? onBackToHome : onPlayAgain, 
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF2563EB),
                                 foregroundColor: Colors.white,
@@ -161,11 +163,9 @@ class GameOverScreen extends StatelessWidget{
                                 ),
                                 elevation: 0
                               ),
-                              child: const Text(
-                                'Play Again',
+                              child: Text(
+                                isWeeklyChallenge ? 'Back to Home' : 'Play Aagain',
                                 style: TextStyle(
-
-
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold
                                 )
