@@ -1,7 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:trivialy/core/services/api_service.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 
+class WeeklyAttempt {
+  final String weekId;
+  final int score;
+  final int scorePercentage;
+  final DateTime? completedAt;
+
+  WeeklyAttempt({
+    required this.weekId,
+    required this.score,
+    required this.scorePercentage,
+    this.completedAt
+  });
+}
 class WeeklyChallengeService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ApiService _apiService = ApiService();
@@ -14,19 +28,50 @@ class WeeklyChallengeService {
     return '${now.year} - W$weekNumber';
   }
 
-  Future<List<Question>> getWeeklyQuestions () async {
+  Future<List<WeeklyAttempt>> getAllAttempts(String uid) async {
+    final snapshot = await _firestore
+      .collection('users')
+      .doc(uid)
+      .collection('weekly_attempts')
+      .orderBy('completedAt', descending: false)
+      .get();
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      final Timestamp? timestamp = data['completedAt'] as Timestamp?;
+      return WeeklyAttempt(
+        weekId: doc.id, 
+        score: (data['score'] as num?)?.toInt() ?? 0, 
+        scorePercentage: (data['scorePercentage'] as num?)?.toInt() ?? 0,
+        completedAt: timestamp?.toDate(),
+      );
+    }).toList();
+  }
+
+  Future<List<Question>> getWeeklyQuestions() async {
     final String weekId = currentWeekId;
+    debugPrint('Weekly challenge: checking week $weekId');
     final docRef = _firestore.collection('weekly_challenges').doc(weekId);
     final existing = await docRef.get();
+    debugPrint('Weekly challenge: existing doc exists=${existing.exists}, data=${existing.data()}');
     if (existing.exists && existing.data() ? ['questions'] != null) {
       final List<dynamic> raw = existing.data()!['questions'];
+      debugPrint('Weekly challenge: returning ${raw.length} cached questions');
       return raw.map((q) => Question.fromJson(Map<String, dynamic>.from(q))).toList();
     }
     // the questions for all players participating in the weekly challenge for that week is the question generated when the first player plays.
+    debugPrint('Weekly challenge: fetching fresh questions from API');
     final List<Question> freshQuestions = await _apiService.fetchQuestions(
         amount: 20,
         difficulty: 'hard',
       ); 
+
+      if (freshQuestions.length < 20) {
+        throw Exception(
+          'The trivia API returned an incomplete question set (${freshQuestions.length}/20). Try again'
+        );
+      }
+      debugPrint('Weekly challenge: API returned ${freshQuestions.length} questions');
       // This recheck part is for when two ormore players click this at once(the same time/almost same time.)
       final recheck = await docRef.get();
       if (recheck.exists && recheck.data()?['questions'] != null) {

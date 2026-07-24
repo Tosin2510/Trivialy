@@ -1,0 +1,215 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:trivialy/features/quiz/models/question_model.dart';
+import 'package:trivialy/features/quiz/presentation/quiz_screen.dart';
+import 'package:trivialy/weekly_challenge_service.dart';
+
+class WeeklyChallengeGateScreen extends StatefulWidget{
+  const WeeklyChallengeGateScreen({super.key});
+
+  @override
+  State<WeeklyChallengeGateScreen> createState() => _WeeklyChallengeGateScreenState();
+}
+
+class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
+  final WeeklyChallengeService _service = WeeklyChallengeService();
+  bool _isLoading = true;
+  bool _alreadyCompleted = false;
+  List<Question> _questions = [];
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = "You need to be signed in to participate in the weekly challenge";
+      });
+      return;
+    }
+
+    try {
+      final bool completed = await _service.hasCompletedThisWeekChallenge(uid);
+      if (completed) {
+        setState(() {
+          _isLoading = false;
+          _alreadyCompleted = true;
+        });
+        return;
+      }
+      final List<Question> questions = await _service.getWeeklyQuestions();
+      debugPrint('Gate screen: received ${questions.length} questions from service');
+      setState(() {
+      _questions = questions;
+      _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Gate screen: Caught exception $e');
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Could not load weekly challenge. Please try it again.';
+      });
+    }
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Color(0xFFF1F5F9),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF2563EB))),
+      );
+    }
+
+    if(_alreadyCompleted) {
+      return _buildMessageScreen(
+        icon: Icons.check_circle_rounded,
+        iconColor: const Color(0xFF16A34A),
+        title: "You've already completed this week challenge",
+        message: 'Come back next week for a new set of challenge questions.',
+        showCountdown: true,
+      );
+    }
+
+    if (_errorMessage != null) {
+      return _buildMessageScreen(
+        icon: Icons.error_outline_rounded,
+        iconColor: const Color(0xFFDC2626),
+        title: 'Something went wrong',
+        message: _errorMessage!,
+      );
+    }
+
+    return QuizScreen(
+      categoryTitle: 'Weekly Challenge', 
+      amount: _questions.length,
+      difficulty: 'hard',
+      categoryIds: const [],
+      timeLimit: const Duration(minutes: 5),
+      preLoadedQuestions: _questions,
+      isWeeklyChallenge: true,
+    );
+  }
+
+
+  Widget _buildMessageScreen({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String message,
+    bool showCountdown = false,
+  }) {
+    final int daysUntilReset = _daysUntilNextChallenge();
+    return Scaffold(
+      backgroundColor: const Color(0xFFF1F5F9),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Center(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(28),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: iconColor.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, size: 48, color: iconColor,),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF0F172A),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF64748B),
+                      fontWeight: FontWeight.w500
+                    )
+                  ),
+                  if (showCountdown) ...[
+                    const SizedBox(height: 20,),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2563EB).withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        daysUntilReset == 1
+                           ? 'Resets tomorrow'
+                           : 'Resets in $daysUntilReset days',
+                        style: const TextStyle(
+                          color: Color(0xFF2563EB),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        )
+                      ),
+                    )
+                  ],
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2563EB),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 0,
+                      ), 
+                      child: const Text('Back to Home',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        )
+      ),
+    );
+  }
+  int _daysUntilNextChallenge() {
+    final DateTime nowUtc = DateTime.now().toUtc();
+    final int daysUntil = (DateTime.monday - nowUtc.weekday + 7) % 7;
+    return daysUntil == 0 ? 7 : daysUntil;
+  }
+}

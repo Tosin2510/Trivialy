@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivialy/weekly_challenge_gate_screen.dart';
 class WeeklyChallengeBanner extends StatelessWidget{
   const WeeklyChallengeBanner({super.key});
 
@@ -31,7 +32,7 @@ class WeeklyChallengeBanner extends StatelessWidget{
           ),
           const SizedBox(height: 6),
           Text(
-            'Test your limits with our curated set of 20 high-difficult questions and earn double XP',
+            'Test your limits with our curated set of 20 high-difficult questions and get ranked in our leaderboard.',
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.9),
               fontSize: bodySize,
@@ -40,7 +41,11 @@ class WeeklyChallengeBanner extends StatelessWidget{
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => WeeklyChallengeGateScreen())
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: const Color(0xFF1E3A8A),
