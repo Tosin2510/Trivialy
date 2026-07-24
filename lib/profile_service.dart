@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivialy/user_profile.dart';
@@ -34,6 +36,25 @@ class ProfileService {
     } else {
       await prefs.remove(_imagePathKey);
     }
+
+    // I am mirroring a user's name to firestore so that the name can reflect on the leaderboard for the weekly challenge.
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      final docRef = FirebaseFirestore.instance.collection('user').doc(uid);
+      final existing = await docRef.get();
+
+      final Map<String, dynamic> data = {'name' : profile.name};
+      if (!existing.exists || existing.data()?['joinedAt'] == null) {
+        data['joinedAt'] = FieldValue.serverTimestamp();
+      }
+      await docRef.set(data, SetOptions(merge: true));
+    }
+  }
+
+  Future<DateTime?> getJoinedDate(String uid) async {
+    final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final Timestamp? timestamp = doc.data()?['joinedAt'] as Timestamp?;
+    return timestamp?.toDate();
   }
 
   Future<String> persistPickedImage(File pickedFile) async {
