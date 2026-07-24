@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/controllers/quiz_controller.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 import 'package:trivialy/features/quiz/presentation/game_over_screen.dart';
-import 'package:trivialy/features/quiz/presentation/reveal_answer_screen.dart';
+import 'package:trivialy/features/quiz/presentation/review_answer_screen.dart';
+import 'package:trivialy/quiz_history_service.dart';
+import 'package:trivialy/weekly_challenge_service.dart';
 
 class QuizScreen extends StatefulWidget {
   final int amount;
@@ -74,6 +77,28 @@ class _QuizScreenState extends State<QuizScreen> {
       _stopwatch.stop();
       _timeExpired = true;
       setState(() => _controller.submitQuiz());
+      
+      final String? uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid != null) {
+        QuizHistoryService().recordAttempt(
+          uid: uid,
+          category: widget.categoryTitle,
+          difficulty: widget.difficulty,
+          score: _controller.score,
+          scorePercentage: _controller.scorePercentage,
+          questionCount: _controller.questions.length,
+          isWeeklyChallenge: widget.isWeeklyChallenge,
+        );
+      }
+      if (widget.isWeeklyChallenge) {
+        if (uid != null) {
+          WeeklyChallengeService().markCompleted(
+            uid, 
+            _controller.score, 
+            _controller.scorePercentage
+          );
+        }
+      }
     } else {
       setState(() => _remainingSeconds--);
     }
@@ -94,6 +119,29 @@ class _QuizScreenState extends State<QuizScreen> {
       _countdownTimer?.cancel();
       _stopwatch.stop();
       setState(() => _controller.submitQuiz());
+
+      final String? uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid != null) {
+        QuizHistoryService().recordAttempt(
+          uid: uid,
+          category: widget.categoryTitle,
+          difficulty: widget.difficulty,
+          score: _controller.score,
+          scorePercentage: _controller.scorePercentage,
+          questionCount: _controller.questions.length,
+          isWeeklyChallenge: widget.isWeeklyChallenge,
+        );
+      }
+      if (widget.isWeeklyChallenge) {
+        final String? uid = FirebaseAuth.instance.currentUser?.uid;
+        if (uid != null) {
+          WeeklyChallengeService().markCompleted(
+            uid,
+            _controller.score, 
+            _controller.scorePercentage,
+          );
+        }
+      }
     } else {
       setState(() => _controller.nextQuestion());
     }
@@ -366,6 +414,7 @@ class _QuizScreenState extends State<QuizScreen> {
       timeDisplay: _formattedRemaining, 
       timeExpired: _timeExpired, 
       onPlayAgain: _loadQuiz, 
+      isWeeklyChallenge: widget.isWeeklyChallenge,
       onReviewAnswers: () {
         Navigator.push(
           context,
