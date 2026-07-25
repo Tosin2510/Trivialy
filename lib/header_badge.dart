@@ -5,7 +5,7 @@ class HeaderBadge extends StatelessWidget{
   const HeaderBadge({
     super.key,
     required this.icon,
-    required this.value
+    required this.value,
   });
   @override
   Widget build(BuildContext context) {
