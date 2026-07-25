@@ -6,6 +6,7 @@ import 'package:trivialy/gold_league_banner.dart';
 import 'package:trivialy/personal_best_banner.dart';
 import 'package:trivialy/profile_screen.dart';
 import 'package:trivialy/quiz_setup_screen.dart';
+import 'package:trivialy/rank_screen.dart';
 import 'package:trivialy/section_title.dart';
 import 'package:trivialy/weekly_challenge_banner.dart';
 
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _selectedCategories.clear();
                           });
                         }
-                      )
+                      ),
                     ),
                     SliverPadding(
                       padding: EdgeInsets.symmetric(
@@ -202,25 +203,44 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => QuizSetupScreen(
-                                    selectedCategories: _selectedCategories,
-                                  )
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  setState(() => _selectedCategories.clear());
+                                }, 
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white70,
+                                ),
+                                child: const Text(
+                                  'Deselect All',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 13
+                                  ),
                                 )
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2563EB),
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              elevation: 0,
-                            ),
-                            child: const Text('Start', style: TextStyle(fontWeight: FontWeight.bold))
+                              ),
+                              const SizedBox(width: 8,),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => QuizSetupScreen(
+                                        selectedCategories: _selectedCategories,
+                                      )
+                                    )
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF2563EB),
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  elevation: 0,
+                                ),
+                                child: const Text('Start', style: TextStyle(fontWeight: FontWeight.bold))
+                              ),
+                            ],
                           )
                         ]
                       )
@@ -235,6 +255,15 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: 0,
         onTap: (index) {
           if (index == 0) return;
+
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RankScreen()
+              ),
+            );
+          }
 
           if (index == 2) {
             Navigator.push(
