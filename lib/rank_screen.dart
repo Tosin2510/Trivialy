@@ -127,7 +127,7 @@ class _RankScreenState extends State<RankScreen> {
               'Be the first to complete the weekly challenge!',
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
-            )
+            ),
           ],
         ),
       ),

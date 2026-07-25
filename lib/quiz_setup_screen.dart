@@ -304,11 +304,11 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                                 const SizedBox(height: 12),
                                 _buildRuleRow(Icons.stars_rounded, 'Score multiplier scale automatically with target difficulty values.')
                           ],
-                          )
-                      )
-                      ]
-              )
-            )
+                          ),
+                      ),
+                      ],
+              ),
+            ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(
@@ -336,8 +336,8 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                           difficulty: _difficulty.toLowerCase(),
                           categoryIds: _resolveCategoryIds(),
                           timeLimit: _parseTimeLimit(),
-                        )
-                        )
+                        ),
+                        ),
                       );
                   },
                   style: ElevatedButton.styleFrom(

@@ -401,7 +401,7 @@ class _QuizScreenState extends State<QuizScreen> {
             )
           )
         ],
-      )
+      ),
     );
   }
 
@@ -588,7 +588,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   )
               )
               )
-        ],)
+        ],
+      ),
     );
   }
 }

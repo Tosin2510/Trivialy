@@ -38,7 +38,7 @@ class _DashBoardHeaderState extends State<DashBoardHeader> {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Text(
               'Trivialy',
               style: TextStyle(

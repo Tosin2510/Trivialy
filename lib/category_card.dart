@@ -56,7 +56,7 @@ class CategoryCard extends StatelessWidget{
                           fontWeight: FontWeight.w800,
                           color: const Color(0xFF1E293B),
                           height: 1.2
-                        )
+                        ),
                       ),
                     ],
                   ),
