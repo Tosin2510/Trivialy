@@ -215,10 +215,10 @@ class GameOverScreen extends StatelessWidget{
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF64748B),
                   letterSpacing: 0.5
-                )
-              )
+                ),
+              ),
             ],
-          )
+          ),
         ],
       )
       );
@@ -235,8 +235,8 @@ Widget _buildStatCard(String value, String label, Color accentColor){
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 4),
-          )
-        ]
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -256,11 +256,11 @@ Widget _buildStatCard(String value, String label, Color accentColor){
               fontWeight: FontWeight.bold,
               color: Color(0xFF64748B),
               letterSpacing: 0.3,
-            ),
+            )
           )
         ],
       ),
-    )
+    ),
     );
 }
 }

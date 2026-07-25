@@ -40,7 +40,7 @@ class ProfileService {
     // I am mirroring a user's name to firestore so that the name can reflect on the leaderboard for the weekly challenge.
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
-      final docRef = FirebaseFirestore.instance.collection('user').doc(uid);
+      final docRef = FirebaseFirestore.instance.collection('users').doc(uid);
       final existing = await docRef.get();
 
       final Map<String, dynamic> data = {'name' : profile.name};
