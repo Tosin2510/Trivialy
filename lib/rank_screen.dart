@@ -303,7 +303,7 @@ class _RankScreenState extends State<RankScreen> {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
           if (second != null) Expanded(child: _buildMainRankSpot(second, 2, myUid),),
           if (first != null) Expanded(child: _buildMainRankSpot(first, 1, myUid),),
@@ -325,6 +325,7 @@ class _RankScreenState extends State<RankScreen> {
          : const Color(0xFFFED7AA);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (isFirst)
           const Icon(Icons.emoji_events_rounded, color: Color(0xFFCA8A04), size: 22),
@@ -371,24 +372,26 @@ class _RankScreenState extends State<RankScreen> {
             ),
           ),
           const SizedBox(height: 10,),
-          Container(
-            width: 90,
-            height: elevatedHeight,
-            decoration: BoxDecoration(
-              color: elevationColor,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            ),
-            child: Center(
-              child: Text(
-                '$place',
-                style: TextStyle(
-                  fontSize: place == 1 ? 20 : 16,
-                  fontWeight: FontWeight.w900,
-                  color: place == 1
-                    ? const Color(0xFF92400E)
-                    : place == 2
-                      ? const Color(0xFF475569)
-                      : const Color(0xFF9A3412)
+          SizedBox(
+            width: 80,
+            child: Container(
+              height: elevatedHeight,
+              decoration: BoxDecoration(
+                color: elevationColor,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              ),
+              child: Center(
+                child: Text(
+                  '$place',
+                  style: TextStyle(
+                    fontSize: place == 1 ? 20 : 16,
+                    fontWeight: FontWeight.w900,
+                    color: place == 1
+                      ? const Color(0xFF92400E)
+                      : place == 2
+                        ? const Color(0xFF475569)
+                        : const Color(0xFF9A3412)
+                  ),
                 ),
               ),
             ),
