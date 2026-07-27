@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trivialy/user_profile.dart';
+import 'package:trivialy/features/profile/models/user_profile.dart';
 
 class ProfileService {
   static const String _nameKey = 'profile_name';

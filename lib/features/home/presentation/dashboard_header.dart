@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trivialy/header_badge.dart';
-import 'package:trivialy/header_badge_icon.dart';
-import 'package:trivialy/quiz_history_service.dart';
+import 'package:trivialy/core/widgets/header_badge.dart';
+import 'package:trivialy/core/widgets/header_badge_icon.dart';
+import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 class DashBoardHeader extends StatefulWidget{
   const DashBoardHeader({super.key});
 

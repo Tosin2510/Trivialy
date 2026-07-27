@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trivialy/auth_service.dart';
-import 'package:trivialy/home_screen.dart';
-import 'package:trivialy/profile_service.dart';
-import 'package:trivialy/profile_setupscreen.dart';
-import 'package:trivialy/sign_in_screen.dart';
+import 'package:trivialy/core/services/auth_service.dart';
+import 'package:trivialy/features/home/presentation/home_screen.dart';
+import 'package:trivialy/features/profile/services/profile_service.dart';
+import 'package:trivialy/features/profile/presentation/profile_setupscreen.dart';
+import 'package:trivialy/features/auth/presentation/sign_in_screen.dart';
 
 class AuthGate extends StatelessWidget{
   const AuthGate({super.key});

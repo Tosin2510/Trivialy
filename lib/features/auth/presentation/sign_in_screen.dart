@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivialy/auth_service.dart';
+import 'package:trivialy/core/services/auth_service.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});

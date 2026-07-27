@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:trivialy/category_card.dart';
-import 'package:trivialy/custom_bottom_nav_bar.dart';
-import 'package:trivialy/dashboard_header.dart';
-import 'package:trivialy/gold_league_banner.dart';
-import 'package:trivialy/personal_best_banner.dart';
-import 'package:trivialy/profile_screen.dart';
-import 'package:trivialy/quiz_setup_screen.dart';
-import 'package:trivialy/rank_screen.dart';
-import 'package:trivialy/section_title.dart';
-import 'package:trivialy/weekly_challenge_banner.dart';
+import 'package:trivialy/core/widgets/category_card.dart';
+import 'package:trivialy/core/widgets/custom_bottom_nav_bar.dart';
+import 'package:trivialy/features/home/presentation/dashboard_header.dart';
+import 'package:trivialy/core/widgets/gold_league_banner.dart';
+import 'package:trivialy/core/widgets/personal_best_banner.dart';
+import 'package:trivialy/features/profile/presentation/profile_screen.dart';
+import 'package:trivialy/features/quiz/presentation/quiz_setup_screen.dart';
+import 'package:trivialy/features/quiz/presentation/rank_screen.dart';
+import 'package:trivialy/core/widgets/section_title.dart';
+import 'package:trivialy/core/widgets/weekly_challenge_banner.dart';
 
 class ResponsiveLayout {
   static const double mobileMax = 600;

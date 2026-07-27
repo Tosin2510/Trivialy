@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trivialy/profile_service.dart';
-import 'package:trivialy/user_profile.dart';
+import 'package:trivialy/features/profile/services/profile_service.dart';
+import 'package:trivialy/features/profile/models/user_profile.dart';
 
 class EditProfileScreen extends StatefulWidget{
   final UserProfile? profile;

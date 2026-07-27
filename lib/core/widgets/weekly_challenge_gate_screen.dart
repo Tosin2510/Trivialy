@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 import 'package:trivialy/features/quiz/presentation/quiz_screen.dart';
-import 'package:trivialy/weekly_challenge_service.dart';
+import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
 class WeeklyChallengeGateScreen extends StatefulWidget{
   const WeeklyChallengeGateScreen({super.key});

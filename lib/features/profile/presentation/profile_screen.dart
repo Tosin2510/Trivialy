@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trivialy/achievements_screen.dart';
-import 'package:trivialy/edit_profile_screen.dart';
-import 'package:trivialy/profile_service.dart';
-import 'package:trivialy/quiz_history_service.dart';
-import 'package:trivialy/stats_history_screen.dart';
-import 'package:trivialy/user_profile.dart';
+import 'package:trivialy/features/quiz/presentation/achievements_screen.dart';
+import 'package:trivialy/features/profile/presentation/edit_profile_screen.dart';
+import 'package:trivialy/features/profile/services/profile_service.dart';
+import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
+import 'package:trivialy/features/quiz/presentation/stats_history_screen.dart';
+import 'package:trivialy/features/profile/models/user_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

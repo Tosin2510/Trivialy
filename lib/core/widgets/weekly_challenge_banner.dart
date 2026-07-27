@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivialy/weekly_challenge_gate_screen.dart';
+import 'package:trivialy/core/widgets/weekly_challenge_gate_screen.dart';
 class WeeklyChallengeBanner extends StatelessWidget{
   const WeeklyChallengeBanner({super.key});
 

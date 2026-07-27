@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trivialy/weekly_challenge_service.dart';
+import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
 class Leaderboard {
   final String uid;
