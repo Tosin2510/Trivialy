@@ -56,10 +56,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       color: const Color(0xFF2563EB).withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.psychology_rounded,
-                    size: 64,
-                    color: Color(0xFF2563EB),
-                    ),
+                    child: Image.asset(
+                      'assets/icon/app_icon.png',
+                      width: 64,
+                      height: 64,
+                      fit: BoxFit.contain,
+                    )
                   ),
                   const SizedBox(height: 24,),
                   const Text(
