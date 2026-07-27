@@ -38,7 +38,7 @@ A beautifully responsive, minimalist trivia application built using the Flutter 
 - Local Storage: shared_preferences(cached profile data), device file system(profile photos).
 - Key Packages: firebase_auth, firebase_core, cloud_firestore, google_sign-in, image_picker, path_provider, html_character_entities, http
 
-## Aarchitecture Notes
+## Architecture Notes
 
 - Weekly challenge questions are generate by the first user to open the challenge in a week, a fetch is triggered from The Trivia API and the fetched question is cached in firestore for subsequent users.
 - User profile photos are stored locally and not uploaded to cloud storage.
