@@ -6,8 +6,8 @@ import 'package:trivialy/features/quiz/controllers/quiz_controller.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 import 'package:trivialy/features/quiz/presentation/game_over_screen.dart';
 import 'package:trivialy/features/quiz/presentation/review_answer_screen.dart';
-import 'package:trivialy/quiz_history_service.dart';
-import 'package:trivialy/weekly_challenge_service.dart';
+import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
+import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
 class QuizScreen extends StatefulWidget {
   final int amount;
