@@ -4,6 +4,7 @@ import 'package:trivialy/features/quiz/models/question_model.dart';
 import 'package:trivialy/features/quiz/presentation/quiz_screen.dart';
 import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
+// This is basically a screen that checks if a user has completed the weekly challenge earlier and if they have not, it fetch the questions.
 class WeeklyChallengeGateScreen extends StatefulWidget{
   const WeeklyChallengeGateScreen({super.key});
 

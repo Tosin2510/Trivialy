@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
+
+// This is a widget that displays the weekly leaderboard banner and shows the user's rank.
 class GoldLeagueBanner extends StatefulWidget{
   const GoldLeagueBanner({super.key});
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+// This is a widget that displays the category card, an icon and a title.
 class CategoryCard extends StatelessWidget{
   final String title;
   final IconData icon;

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trivialy/features/profile/services/profile_service.dart';
 import 'package:trivialy/features/profile/models/user_profile.dart';
 
+// This screen opens up when the user clicks on the edit profile button.
 class EditProfileScreen extends StatefulWidget{
   final UserProfile? profile;
 

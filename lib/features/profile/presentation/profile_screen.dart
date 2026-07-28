@@ -9,6 +9,7 @@ import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 import 'package:trivialy/features/quiz/presentation/stats_history_screen.dart';
 import 'package:trivialy/features/profile/models/user_profile.dart';
 
+// This screens actually shows the user's profile, their statistics and allows them edit their profile.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

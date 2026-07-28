@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trivialy/features/auth/presentation/auth_gate.dart';
 import 'package:trivialy/core/config/firebase_options.dart';
 
+// The main entry poinf of the app.
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);  

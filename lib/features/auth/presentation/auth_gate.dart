@@ -6,6 +6,7 @@ import 'package:trivialy/features/profile/services/profile_service.dart';
 import 'package:trivialy/features/profile/presentation/profile_setupscreen.dart';
 import 'package:trivialy/features/auth/presentation/sign_in_screen.dart';
 
+// This basically checks if a user is signed in and if they have setup their profile.
 class AuthGate extends StatelessWidget{
   const AuthGate({super.key});
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trivialy/core/widgets/weekly_challenge_gate_screen.dart';
+
+// This basically displays the weekly challenge banner which basically allows users to play the weekly challenge and be ranked in the leaderboard
 class WeeklyChallengeBanner extends StatelessWidget{
   const WeeklyChallengeBanner({super.key});
 

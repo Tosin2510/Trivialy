@@ -10,6 +10,7 @@ class DashBoardHeader extends StatefulWidget{
   State<DashBoardHeader> createState() => _DashBoardHeaderState();
 }
 
+// This shows the app's name, total points and users streak.
 class _DashBoardHeaderState extends State<DashBoardHeader> {
   
   @override

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivialy/features/profile/models/user_profile.dart';
 
+// This service handles the user profile, saving of their data, loading and allowing image selection.
 class ProfileService {
   static const String _nameKey = 'profile_name';
   static const String _imagePathKey = 'profile_image_path';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+// This is the custom navigation bar that allows users to navigate between the different app screens
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;

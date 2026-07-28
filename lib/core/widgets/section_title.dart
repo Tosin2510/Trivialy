@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+// Allows the display of a view all button and a tite for each section of the app.
 class SectionTitle extends StatelessWidget{
   final String title;
   final bool hasViewAll;

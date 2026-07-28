@@ -8,6 +8,7 @@ class SignInScreen extends StatefulWidget {
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
+// This is the Google sign-in screen.
 class _SignInScreenState extends State<SignInScreen> {
   final AuthService _authService = AuthService();
   bool _isSigningIn = false;

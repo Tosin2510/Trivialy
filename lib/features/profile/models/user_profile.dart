@@ -1,3 +1,5 @@
+
+// A model for the user's profile, with their name and image...
 class UserProfile {
   final String name;
   final String? imagePath;

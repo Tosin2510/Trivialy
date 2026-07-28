@@ -6,6 +6,7 @@ import 'package:trivialy/features/home/presentation/home_screen.dart';
 import 'package:trivialy/features/profile/services/profile_service.dart';
 import 'package:trivialy/features/profile/models/user_profile.dart';
 
+// This screens allows users profile setup and image picking.
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
 

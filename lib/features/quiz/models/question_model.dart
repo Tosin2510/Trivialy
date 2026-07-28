@@ -1,5 +1,6 @@
 import 'package:html_character_entities/html_character_entities.dart';
 
+// A model for the questions from the trivia api.
 class Question{
   final String category;
   final String difficulty;

@@ -1,8 +1,10 @@
 import 'package:trivialy/core/services/api_service.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 
+// Aan enum showing the states of the quiz.
 enum QuizState {loading, playing, error, gameOver}
 
+// Thiscontroller handles the quiz logic, loading questions, tracking scores and so on.
 class QuizController {
   final ApiService _apiService = ApiService();
 

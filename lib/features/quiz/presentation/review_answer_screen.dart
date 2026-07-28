@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 
+// This screen allows users to check the answer they picked and the correct answer for the questions.
 class ReviewAnswerScreen extends StatelessWidget {
   final List<Question> questions;
   final Map<int, String> selectedAnswers;

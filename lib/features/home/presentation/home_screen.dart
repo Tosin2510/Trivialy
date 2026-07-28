@@ -10,6 +10,7 @@ import 'package:trivialy/features/quiz/presentation/rank_screen.dart';
 import 'package:trivialy/core/widgets/section_title.dart';
 import 'package:trivialy/core/widgets/weekly_challenge_banner.dart';
 
+// This is the app's responsive home screen, shows categories, weekly challenges and so on.
 class ResponsiveLayout {
   static const double mobileMax = 600;
   static const double tabletMax = 1100;

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 
+// Shows the user's quiz history and stats, total challenge, best score and all, and it has a bar chart too.
 class StatsHistoryScreen extends StatefulWidget{
   const StatsHistoryScreen({super.key});
 

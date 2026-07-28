@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
+
+// This widget displays the user's personal best score.
 class PersonalBestBanner extends StatelessWidget{
   const PersonalBestBanner({super.key});
 

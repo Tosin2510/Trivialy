@@ -20,6 +20,8 @@ class QuizAttempt {
   });
 }
 
+// This service handlesthe quiz history of users.
+
 class QuizHistoryService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
