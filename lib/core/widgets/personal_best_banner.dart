@@ -41,10 +41,6 @@ class PersonalBestBanner extends StatelessWidget{
                     fontSize: (screenWidth * 0.04).clamp(11.0, 13.0)
                   ),
                 ),
-                const Icon(Icons.emoji_events,
-                  color: Colors.amber,
-                  size: 24
-                  )
               ]
             ),
             const SizedBox(height: 2),
