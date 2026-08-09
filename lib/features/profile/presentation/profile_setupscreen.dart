@@ -28,6 +28,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
   }
   bool get _canContinue => _nameController.text.trim().isNotEmpty;
 
+// Gets the name initial of the user.
   String get _previewInitials {
     final String name = _nameController.text.trim();
     if (name.isEmpty) return '?';
@@ -35,6 +36,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
     if (parts.length == 1) return parts.first[0].toUpperCase();
     return (parts.first[0] + parts.last[0]).toUpperCase();
   }
+  // Allows the user to select their picture from their device gallery.
   Future<void> _pickFromGallery() async {
     final XFile? picked = await _imagePicker.pickImage(
       source: ImageSource.gallery,
@@ -47,6 +49,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
       setState(() => _selectedImage = File(picked.path));
   }
 
+// Basically allows the saving of the user profile to firebase.
   Future<void> _handleContinue() async {
     if (!_canContinue) return;
 
@@ -56,7 +59,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
     if (_selectedImage != null) {
       permanentImagePath = await _profileService.persistPickedImage(_selectedImage!);
     }
-
+// Save the user profile to firebase.
     final profile = UserProfile(
       name: _nameController.text.trim(),
       imagePath: permanentImagePath,
@@ -72,6 +75,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
   }
 
   @override
+  // The build part.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
 
@@ -106,6 +110,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
               ),
               const SizedBox(height: 32),
               Center(
+                // This is the part where the user picks their pfp from their gallery.
                 child: GestureDetector(
                   onTap: _pickFromGallery,
                   child: Stack(
@@ -132,6 +137,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
                               )
                             )
                       ),
+                      // This shows the camera icon so that users can change any picture they select.
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -206,6 +212,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen>{
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
+                  // Handles the saving of user profile to firebase.
                   onPressed: _canContinue && !_isSaving
                     ? _handleContinue : null,
                     style: ElevatedButton.styleFrom(

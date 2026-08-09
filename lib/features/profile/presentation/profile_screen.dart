@@ -32,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadProfile();
   }
 
+// Takes note of when the user joined and also loads their profile info from firebase.
   DateTime? _joinedDate;
   Future<void> _loadProfile() async {
     final profile = await _profileService.loadProfile();
@@ -53,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+// This shows the joined date of the user.
   String get _joinedText {
     if (_joinedDate == null) return 'Joined recently';
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -74,6 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final double screenWidth = MediaQuery.sizeOf(context).width;
 
+// The build part.
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
         body: SafeArea(
@@ -96,6 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     GestureDetector(
+                      // Allows users to edit their profile when they click on the setting-like icon...
                       onTap: () async {
                         final bool? updated = await Navigator.push<bool>(
                           context,
@@ -173,6 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
     );
   }
+  // Builds the card that shws the user history and ststs.
   Widget _buildStatCard(String value, String label) {
     return Expanded(
       child: Container(
@@ -213,6 +218,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+// This widget allows the user to go to diff part of the profile screen
+// Screens like achievements and all...
   Widget _buildMenuRow(IconData icon, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -263,6 +270,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  // This is the part that shows either the user's profile picture or their name initials.
   Widget _buildAvatar() {
     const double size = 96;
 

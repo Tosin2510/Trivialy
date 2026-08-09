@@ -47,6 +47,7 @@ class QuizController {
         errorMessage = e.toString().replaceAll('Exception:', '');
       }
     }
+    // Handles the scoring...
     bool answerQuestion(String selectedAnswer) {
       final currentQuestion = questions[currentQuestionIndex];
       bool isCorrect = currentQuestion.correctAnswer == selectedAnswer;
@@ -66,20 +67,24 @@ class QuizController {
       }
       return isCorrect;
     }
+    // Handles switching between questions.
     void nextQuestion() {
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
       }
     }
+    // Allows the user to go to the prev question.
     void previousQuestion() {
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
       }
     }
+    // Handles submission.
     void submitQuiz() {
       state = QuizState.gameOver;
     }
 
+// I use percentage for the grading.
     int get scorePercentage {
       if (questions.isEmpty) return 0;
 

@@ -21,6 +21,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
     _load();
   }
 
+// Loads the history from firebase.
   Future<void> _load() async {
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
@@ -36,6 +37,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
     }
   }
 
+// This part get the total challenge as well as the best score of the user.
   int get _totalChallenges => _attempts.length;
 
   int get _bestPercentage =>
@@ -48,6 +50,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
     }
 
     @override
+    // The build part.
     Widget build(BuildContext context) {
       final double screenWidth = MediaQuery.sizeOf(context).width;
 
@@ -121,6 +124,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
       ));
     }
 
+// Handles when the user has not done any challenge.
     Widget _buildEmptyState() {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 80),
@@ -151,6 +155,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
       );
     }
 
+// Handles the summarty for the average score, best score, total score and so on...
     Widget _buildSummaryCard (String value, String label, Color color) {
       return Expanded(
         child: Container(
@@ -189,7 +194,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
 
     Widget _buildBarChart() {
       // I will be showing at most the last 8 attempts...
-      // I am etting the average day score percentage for the graph
+      // I am getting the average day score percentage for the graph
 
       final Map<DateTime, List<QuizAttempt>> byDay = {};
       for (final attempt in _attempts) {
@@ -247,6 +252,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
                         )
                       ),
                       Padding(
+                        // The bar chart for the user history.
                         padding: const EdgeInsets.only(bottom: 18),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -274,6 +280,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
                         ),
                       ),
 
+// The axis of the chart that shows the date.
                       Positioned(
                         left: 0,
                         right: 0,
@@ -302,7 +309,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
           _buildLegend(),
         ]);
     }
-
+// Handle the bar chart legend part.
     Widget _buildLegend() {
       return Row(
         children: [
@@ -313,6 +320,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
       );
     }
 
+// The legend dot shows the color as well as the label in the bar chart.
     Widget _buildLegendDot(Color color, String label) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -331,6 +339,7 @@ class _StatsHistoryScreenState extends State<StatsHistoryScreen> {
       );
     }
 
+// Shows the history for each of the user's atttempt.
     Widget _buildHistoryRow(QuizAttempt attempt) {
       return Container(
         margin: const EdgeInsets.only(bottom: 10),

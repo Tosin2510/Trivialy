@@ -39,6 +39,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   bool get _canSave => _nameController.text.trim().isNotEmpty;
 
+// This part gets the user name initial.
   String get _previewInitials {
     final String name = _nameController.text.trim();
     if (name.isNotEmpty) return '?';
@@ -47,6 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return (parts.first[0] + parts.last[0]).toUpperCase();
   }
 
+// Allows selection of images from the device gallery.
   Future<void> _pickFromGallery() async {
     final XFile? picked = await _imagePicker.pickImage(
       source: ImageSource.gallery,
@@ -59,6 +61,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() => _selectedImage = File(picked.path));
   }
 
+// This part allows saving of the user category.
   Future<void> _handleSave() async {
     if (!_canSave) return;
 
@@ -69,6 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       permanentImagePath = await _profileService.persistPickedImage(_selectedImage!);
     }
 
+// The user profile except the imsge is saved in firebae.
     final profile = UserProfile(
       name: _nameController.text.trim(),
       imagePath: permanentImagePath,
@@ -80,6 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   @override
+  // The build for the profile edit.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
 
@@ -128,6 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 shape: BoxShape.circle,
                                 color: Color(0xFF2563EB),
                               ),
+                              // Shows the user name initias if they do not pick an image.
                               child: _selectedImage != null
                                 ? ClipOval(
                                   child: Image.file(_selectedImage!, fit : BoxFit.cover),
@@ -167,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: 10,),
                     Center(
                       child: Text(
-                        'Tap to change phooto',
+                        'Tap to change photo',
                         style: const TextStyle(
                           fontSize: 12,
                           color:Color(0xFF64748B),
@@ -188,6 +194,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           )
                         ]
                       ),
+                      // Allows user to edit their name.
                       child: TextFormField(
                         controller: _nameController,
                         onChanged: (_) => setState(() {}),
@@ -212,6 +219,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       width: double.infinity,
                       height: 56,
                       child: ElevatedButton(
+                        // If the user does not enter a profile name, they will not be able to save.
                         onPressed: _canSave && !_isSaving ? _handleSave : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF2563EB),
@@ -222,6 +230,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           elevation: 0,
                         ),
+                        // A loading indicator so that the user will not think the app is broken while they are saving.
                         child: _isSaving
                           ? const SizedBox(
                             width: 22,

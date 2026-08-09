@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trivialy/core/services/api_service.dart';
 import 'package:trivialy/features/quiz/models/question_model.dart';
 
+// Handles weekly challenge atempts for each users.
 class WeeklyAttempt {
   final String weekId;
   final int score;
@@ -17,9 +18,11 @@ class WeeklyAttempt {
   });
 }
 class WeeklyChallengeService {
+  // Uses firestore to store the weekly challenge questions for subsequent users.
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ApiService _apiService = ApiService();
 
+//
   String get currentWeekId {
     final DateTime now = DateTime.now().toUtc();
     final DateTime firstDayOfYear = DateTime.utc(now.year, 1, 1);
@@ -28,6 +31,7 @@ class WeeklyChallengeService {
     return '${now.year} - W$weekNumber';
   }
 
+// Gets all the weekly challenge attempts by user.
   Future<List<WeeklyAttempt>> getAllAttempts(String uid) async {
     final snapshot = await _firestore
       .collection('users')
@@ -36,6 +40,7 @@ class WeeklyChallengeService {
       .orderBy('completedAt', descending: false)
       .get();
 
+// Return a snapshot of the atempts.
     return snapshot.docs.map((doc) {
       final data = doc.data();
       final Timestamp? timestamp = data['completedAt'] as Timestamp?;
@@ -48,6 +53,7 @@ class WeeklyChallengeService {
     }).toList();
   }
 
+// Get the current week question from the api then save to firestore for other subsequent users.
   Future<List<Question>> getWeeklyQuestions() async {
     final String weekId = currentWeekId;
     debugPrint('Weekly challenge: checking week $weekId');
@@ -66,13 +72,15 @@ class WeeklyChallengeService {
         difficulty: 'hard',
       ); 
 
+// This basically just make sure the trivia api actually return exactly 20 questions.
       if (freshQuestions.length < 20) {
         throw Exception(
           'The trivia API returned an incomplete question set (${freshQuestions.length}/20). Try again'
         );
       }
       debugPrint('Weekly challenge: API returned ${freshQuestions.length} questions');
-      // This recheck part is for when two ormore players click this at once(the same time/almost same time.)
+      // This recheck part is for when two or more players click this at once(the same time/almost same time.)
+      // By this, i meant the weekly challenge question.
       final recheck = await docRef.get();
       if (recheck.exists && recheck.data()?['questions'] != null) {
         final List<dynamic> raw = recheck.data()!['questions'];
@@ -93,6 +101,7 @@ class WeeklyChallengeService {
     return freshQuestions;
   }
 
+// If a user has finished the challenge for that week, it will return true.
   Future<bool> hasCompletedThisWeekChallenge(String uid) async {
     final doc = await _firestore
         .collection('users')
@@ -103,6 +112,7 @@ class WeeklyChallengeService {
       return doc.exists;
   }
 
+// This part saves the result of the completed weekly challenge to firebase.
   Future<void> markCompleted (String uid, int score, int scorePercentage) async {
     await _firestore
       .collection('users')
@@ -115,6 +125,7 @@ class WeeklyChallengeService {
         'completedAt': FieldValue.serverTimestamp(),
       });
 
+// Saves the weekly challenge result to the leaderboard and display it in the leaderboard screen.
       await _firestore
          .collection('weekly_leaderboard')
          .doc(currentWeekId)

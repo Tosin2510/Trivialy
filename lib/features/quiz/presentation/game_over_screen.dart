@@ -26,6 +26,7 @@ class GameOverScreen extends StatelessWidget{
     this.isWeeklyChallenge = false
   });
   @override
+  // Handles the build for when the game is over.
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
@@ -80,6 +81,7 @@ class GameOverScreen extends StatelessWidget{
                 const SizedBox(height: 24),
                 Row(
                   children: [
+                    // Handles the building of the statistic card.
                     _buildStatCard('$correctCount', 'CORRECT', const Color(0xFF16A34A)),
                     const SizedBox(width: 12,),
                     _buildStatCard('$wrongCount', 'WRONG', const Color(0xFFDC2626)),
@@ -151,6 +153,7 @@ class GameOverScreen extends StatelessWidget{
                         ),
                         const SizedBox(width: 12),
                         Expanded(
+                          // Handles the play again button and back to home, in the case of weekly challengews.
                           child: SizedBox(
                             height: 52,
                             child: ElevatedButton(
@@ -180,6 +183,7 @@ class GameOverScreen extends StatelessWidget{
         )
     );
   }
+  // This widget for the score ring, shows the user score percentage.
   Widget _buildScoreRing() {
     return SizedBox(
       width: 160,
@@ -223,6 +227,7 @@ class GameOverScreen extends StatelessWidget{
       )
       );
   }
+// This handles the user statistics card.
 Widget _buildStatCard(String value, String label, Color accentColor){
   return Expanded(
     child: Container(

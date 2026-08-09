@@ -25,6 +25,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
     _load();
   }
 
+// Loads questions for weekly challenge and also check if the user is signed in.
   Future<void> _load() async {
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
@@ -36,6 +37,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
     }
 
     try {
+      // Checks if the user has done the challenge at all for that week.
       final bool completed = await _service.hasCompletedThisWeekChallenge(uid);
       if (completed) {
         setState(() {
@@ -44,6 +46,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
         });
         return;
       }
+      // This part fetches the questions for the weekly challenge.
       final List<Question> questions = await _service.getWeeklyQuestions();
       debugPrint('Gate screen: received ${questions.length} questions from service');
       setState(() {
@@ -59,6 +62,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
     }
   }
   
+  // This part actually builds the screen for if the user has completed the challenge, if not, it takes them to the quiz screen.
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -68,6 +72,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
       );
     }
 
+// If they have alReady completed, it shows them a message telling them.
     if(_alreadyCompleted) {
       return _buildMessageScreen(
         icon: Icons.check_circle_rounded,
@@ -78,6 +83,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
       );
     }
 
+// If an error occurs trying to fetch the questions, it shows them a message.
     if (_errorMessage != null) {
       return _buildMessageScreen(
         icon: Icons.error_outline_rounded,
@@ -87,6 +93,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
       );
     }
 
+// If no issues, it leads the user to quiz scree.
     return QuizScreen(
       categoryTitle: 'Weekly Challenge', 
       amount: _questions.length,
@@ -99,6 +106,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
   }
 
 
+// This is the part that builds the screen if the user has done the challenge earlier for that week.
   Widget _buildMessageScreen({
     required IconData icon,
     required Color iconColor,
@@ -106,6 +114,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
     required String message,
     bool showCountdown = false,
   }) {
+    // This part calculate the number of days left until the next challenge.
     final int daysUntilReset = _daysUntilNextChallenge();
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
@@ -158,6 +167,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
                       fontWeight: FontWeight.w500
                     )
                   ),
+                  // This is the part that shows the days left to the next challenge on the screen.
                   if (showCountdown) ...[
                     const SizedBox(height: 20,),
                     Container(
@@ -186,6 +196,7 @@ class _WeeklyChallengeGateScreenState extends State<WeeklyChallengeGateScreen> {
                     width: double.infinity,
                     height: 52,
                     child: ElevatedButton(
+                      // This part, onpressing it, it takes the user back to the home screen...
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2563EB),

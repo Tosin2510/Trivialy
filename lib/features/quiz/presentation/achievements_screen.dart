@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 
+// Handles the achievement scree.
 class Achievement {
   final String title;
   final String description;
@@ -37,7 +38,7 @@ void initState() {
   super.initState();
   _load();
 }
-
+// Calculates the streak of the user.
 int _currentDayStreak(List<QuizAttempt> attempts) {
   final Set<DateTime> playedDays = attempts
     .where((a) => a.completedAt != null)
@@ -46,7 +47,7 @@ int _currentDayStreak(List<QuizAttempt> attempts) {
       return DateTime(val.year, val.month, val.day);
     }).toSet();
   if (playedDays.isEmpty) return 0;
-
+// Checks when the user last played and if it was yesterday or today, it adds to their streak, or else, it returns 0.
   final DateTime today = DateTime.now();
   final DateTime todayOnly = DateTime(today.year, today.month, today.day);
 
@@ -64,6 +65,7 @@ int _currentDayStreak(List<QuizAttempt> attempts) {
   return streak;
 }
 
+// Loads the achievements and track the user progress.
 Future<void> _load() async {
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
   List<QuizAttempt> attempts = [];
@@ -78,7 +80,7 @@ Future<void> _load() async {
   final int regularCounter = regularQuizzes.length;
   final Set<String> differentCategories = regularQuizzes.map((a) => a.category).toSet();
   final bool hasPerfectRegularScore = regularQuizzes.any((a) => a.scorePercentage == 100);
-
+// Different achievements the user can unlock.
   final List<Achievement> achievements = [
     Achievement(
       title: 'First Steps', 
@@ -153,7 +155,7 @@ Future<void> _load() async {
       targetProgress: 30,
     ),
   ];
-
+// Checcks if the widget is on screen, then updates the screen with the achievement.
   if (mounted) {
     setState(() {
       _achievements = achievements;
@@ -162,6 +164,7 @@ Future<void> _load() async {
   }
 }
 
+// The build part.
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -200,6 +203,7 @@ Future<void> _load() async {
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
+                    // Shows how many achievement has been unlocked by the user.
                     '$unlockedCount of ${_achievements.length} unlocked',
                     style: const TextStyle(
                       color: Color(0xFF64748B), fontSize: 13
@@ -225,6 +229,7 @@ Future<void> _load() async {
       ),
     );
   } 
+  // This part handles building of the achievement badge.
 Widget _buildBadge(Achievement achievement) {
   final Color color = achievement.unlocked ? const Color(0xFFB45309) : const Color(0xFF94A3B8);
   final bool hasProgress = achievement.currentProgress != null && achievement.targetProgress != null;
@@ -258,6 +263,7 @@ Widget _buildBadge(Achievement achievement) {
         ),
         const SizedBox(height: 12,),
         Text(
+          // The title of the achievement...
           achievement.title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -267,12 +273,14 @@ Widget _buildBadge(Achievement achievement) {
         ),
         const SizedBox(height: 4,),
         Text(
+          // The achievement description.
           achievement.description,
           style: const TextStyle(
             fontSize: 11,
             color: Color(0xFF64748B), height: 1.3
           ),
         ),
+        // Shows progress bar.
         if (!achievement.unlocked && hasProgress)...[
           const SizedBox(height: 10,),
           ClipRRect(

@@ -16,6 +16,7 @@ class Question{
   });
   factory Question.fromJson(Map<String, dynamic> json) {
     // I am switching to trivia api.
+    // This part decodes what the api returns.
     final String rawQuestionText = json['question'] is Map
        ?(json['question']['text'] ?? '')
        : (json['question']?.toString() ?? '');
@@ -23,11 +24,13 @@ class Question{
     final String decodeCorrectAnswer = HtmlCharacterEntities.decode(
       json['correctAnswer'] ?.toString() ?? '',);
 
+// Creates a shuffle between correct and incorrect aanswers.
     List<String> choices = (json['incorrectAnswers'] as List? ?? [])
        .map((answer) => HtmlCharacterEntities.decode(answer.toString())).toList();
     choices.add(decodeCorrectAnswer);
     choices.shuffle();
 
+// Returns the decoded model.
     return Question(
       category: json['category']?.toString() ?? 'General',
       difficulty: json['difficulty']?.toString() ?? 'medium',

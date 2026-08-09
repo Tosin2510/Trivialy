@@ -11,6 +11,7 @@ import 'package:trivialy/core/widgets/section_title.dart';
 import 'package:trivialy/core/widgets/weekly_challenge_banner.dart';
 
 // This is the app's responsive home screen, shows categories, weekly challenges and so on.
+// It is responsive to big snd small screens like tablets, mobile phones...
 class ResponsiveLayout {
   static const double mobileMax = 600;
   static const double tabletMax = 1100;
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _showAllCategories = false;
   bool _isMultiSelect = false;
   final Set<String> _selectedCategories = {};
+  // Other categories that pop up when the user presses view all.
   final List<Map<String, dynamic>> _extraCategories = [
     {'title': 'Entertainment', 'icon': Icons.movie_creation_outlined, 'color': Colors.deepOrange},
     {'title': 'Art', 'icon': Icons.palette_outlined, 'color': Colors.purple},
@@ -41,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  // The build.
   Widget build(BuildContext context) {
     final bool showCheckboxes = _isMultiSelect && _selectedCategories.isNotEmpty;
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -55,8 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 900),
-            child: Stack( //  Wrapped inside a Stack so Positioned works perfectly!
+            child: Stack(
               children: [
+                // Supports custom scrolling.
                 CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
@@ -66,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: SectionTitle(
                         title: 'Choose a Category',
                         hasViewAll: true,
+                        // The screen can switch between showing all categories or showing less categories.
                         viewAllText: _showAllCategories ? 'Show less' : 'View all',
                         customFontSize: 20.0,
                         customFontWeight: FontWeight.w800,
@@ -74,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _showAllCategories = !_showAllCategories;
                           });
                         },
+                        // Allows users to switch btwn single and multiple category.
                         isMultiSelect: _isMultiSelect,
                         onToggleMode: (bool newValue) {
                           setState((){
@@ -95,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisSpacing: (screenWidth * 0.03).clamp(12.0, 20.0),
                           childAspectRatio: 1.02,
                         ),
+                        // Basically rep the category card in some form of grid.
                         delegate: SliverChildListDelegate([
                           CategoryCard(
                             title: 'General Knowledge',
@@ -128,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             isSelected: _selectedCategories.contains('Sports'),
                             onTap: () => _handleCategoryTap('Sports', Icons.sports_soccer)
                           ),
+                          // This comes up when the user clicks on view all.
+                          // It shows the category card for those other categories too.
                           if(_showAllCategories)
                             ..._extraCategories.map((item) {
                               final String currentTitle = item['title'] ?? '';
@@ -159,7 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 
-                // Floating Action Banner (Now safe inside the Stack widget)
+                // Rep the selected categories.
+                // If the user is seleting multipe category, then some sort of banner shows up.
                 if (_isMultiSelect && _selectedCategories.isNotEmpty) 
                   Positioned(
                     bottom: 16,
@@ -194,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               const SizedBox(height: 2),
+                              // This shows the number of categories the user selects.
                               Text(
                                 '${_selectedCategories.length} selected',
                                 style: const TextStyle(
@@ -204,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
+                          // If the suer clicks on deselect all, the selected caategries get cleared off.
                           Row(
                             children: [
                               TextButton(
@@ -221,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ),
                               const SizedBox(width: 8,),
+                              // When the user select start, the users are led to the quiz setup screen.
                               ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -252,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
       ),
+      // This part shows the bottom navigation bar.
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 0,
         onTap: (index) {
@@ -279,6 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+// If the user checks or unchecks a selected categgory, this part either add or remove it from the categories selected.
   void _handleCategoryTap(String categoryTitle, IconData categoryIcon) {
     setState(() {
       if(_isMultiSelect) {

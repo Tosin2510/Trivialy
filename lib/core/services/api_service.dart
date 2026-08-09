@@ -27,6 +27,7 @@ class ApiService{
     debugPrint('Fetching: $url');
 
     try {
+      // This is where I make the request to the API and handle the various response it can send back.
       final response = await http.get(url);
       if(response.statusCode == 200) {
         final List<dynamic> results = jsonDecode(response.body);

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trivialy/core/widgets/header_badge.dart';
 import 'package:trivialy/core/widgets/header_badge_icon.dart';
 import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 class DashBoardHeader extends StatefulWidget{
@@ -19,6 +18,7 @@ class _DashBoardHeaderState extends State<DashBoardHeader> {
     double dynamicPadding = (screenWidth * 0.04).clamp(16.0,24.0);
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
+// Uses stream builder to note changes and update the widget.
     return StreamBuilder<List<QuizAttempt>>(
       stream: uid != null ? QuizHistoryService().historyStream(uid) : null, 
       builder: (context, snapshot) {
@@ -30,6 +30,7 @@ class _DashBoardHeaderState extends State<DashBoardHeader> {
         padding: EdgeInsets.all(dynamicPadding),
         child: Row(
           children: [
+            // This part rep the icon and name of the app.
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
@@ -50,8 +51,9 @@ class _DashBoardHeaderState extends State<DashBoardHeader> {
               ),
             ),
             const Spacer(),
-            HeaderBadge(
-              icon: '🔥',
+            HeaderBadgeIcon(
+              icon: Icons.local_fire_department_rounded,
+              iconColor: Colors.redAccent.shade700,
               value: '$streak'
             ),
             HeaderBadgeIcon(

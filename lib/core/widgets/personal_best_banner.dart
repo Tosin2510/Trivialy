@@ -7,14 +7,17 @@ class PersonalBestBanner extends StatelessWidget{
   const PersonalBestBanner({super.key});
 
   @override
+  // The build part.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     double dynamicMargin = (screenWidth * 0.04).clamp(16.0,24.0);
     double dynamicPadding = (screenWidth * 0.06).clamp(20.0, 28.0);
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
+// Uses a stream builder so that changes can be taken note of and the widget can be updated...
     return StreamBuilder<List<QuizAttempt>>(
       stream: uid != null ? QuizHistoryService().historyStream(uid) : null, 
+      // Uses a snapshot to get stream data.
       builder: (context, snapshot) {
         final attempts = snapshot.data ?? [];
         final int bestScore = QuizHistoryService().bestScore(attempts);
@@ -44,6 +47,7 @@ class PersonalBestBanner extends StatelessWidget{
               ]
             ),
             const SizedBox(height: 2),
+            // Displays best score.
             Text(
               '$bestScore pts',
               style: TextStyle(

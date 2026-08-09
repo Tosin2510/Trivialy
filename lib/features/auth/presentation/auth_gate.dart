@@ -12,25 +12,28 @@ class AuthGate extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    // This part uses a stream buildr to check if the user is signed in and if their profile is set already.
     return StreamBuilder<User?>(
       stream: AuthService().authStateChanges, 
       builder: (context, authSnapshot) {
         if (authSnapshot.connectionState == ConnectionState.waiting) {
           return const _LoadingScreen();
         }
-
+        // This takes the user to the sign in if they are not sign in already.
         final User? user = authSnapshot.data;
         if (user == null) {
           return const SignInScreen();
         }
 
+
+        // Uses a future builder so as to check if a user has their profile screen set up already.
         return FutureBuilder<bool>(
           future: ProfileService().hasCompletedSetup(),
           builder: (context, profileSnapshot) {
             if (profileSnapshot.connectionState == ConnectionState.waiting) {
               return const _LoadingScreen();
             }
-
+            // If the user has set up their profile, this take them to home screen.
             final bool hasProfile = profileSnapshot.data ?? false;
             return hasProfile ? const HomeScreen() : const ProfileSetupScreen();
           }
@@ -41,6 +44,7 @@ class AuthGate extends StatelessWidget{
 
 }
 
+// Handles the loading screen so the user will not think the app is not working.
 class _LoadingScreen extends StatelessWidget {
   const _LoadingScreen();
 

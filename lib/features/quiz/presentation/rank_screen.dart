@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
+// Shows the leaderboard.
 class Leaderboard {
   final String uid;
   final String name;
@@ -11,6 +12,7 @@ class Leaderboard {
   Leaderboard({required this.uid, required this.name, required this.score});
 }
 
+// Handles the rank screen for the weekly challenge board.
 class RankScreen extends StatefulWidget {
   const RankScreen({super.key});
 
@@ -30,6 +32,7 @@ class _RankScreenState extends State<RankScreen> {
     _load();
   }
 
+// Loads the leaderboard from firebase.
   Future<void> _load() async {
     try {
       final String weekId = _weeklyService.currentWeekId;
@@ -68,6 +71,7 @@ class _RankScreenState extends State<RankScreen> {
     }
   }
 
+// Gets the user name initials.
   String _nameInitials(String name) {
     final parts = name.trim().split(RegExp(r'\s+'));
     if (parts.isEmpty || parts.first.isEmpty) return '?';
@@ -75,6 +79,7 @@ class _RankScreenState extends State<RankScreen> {
     return (parts.first[0] + parts.last[0]).toUpperCase();
   }
 
+// The build part.
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -105,6 +110,7 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
+// Handles when there is no one on the leaderboard yet.
   Widget _buildEmptyState() {
     return Center(
       child: Padding(
@@ -134,6 +140,7 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
+// Handles when there is/are data to be used for the leaderboard.
   Widget _buildLeaderBoard(double screenWidth, String? myUid) {
     final List<Leaderboard> mainRank = _entryList.take(3).toList();
     final List<Leaderboard> remainingRank = _entryList.skip(3).toList();
@@ -180,6 +187,7 @@ class _RankScreenState extends State<RankScreen> {
             ],
           ),
           const SizedBox(height: 24,),
+          // Displays the first, secons and third rank in some sort of podium.
           if (mainRank.isNotEmpty) _buildMainRank(mainRank, myUid),
           if (_entryList.length < 3) ...[
             const SizedBox(height: 20,),
@@ -208,6 +216,7 @@ class _RankScreenState extends State<RankScreen> {
             )
           ],
           const SizedBox(height: 20),
+          // Uses a list for the other ranks.
           ...List.generate(remainingRank.length, (index) {
             final entry = remainingRank[index];
             final int rank = index + 4;
@@ -219,6 +228,7 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
+// Build the row for the other ranks.
   Widget _buildRankRow(int rank, Leaderboard entry, bool isUser) {
     return Container (
       margin: const EdgeInsets.only(bottom: 10),
@@ -290,6 +300,7 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
+// This is the widget for the first, second and third rank in some sort of podium.
   Widget _buildMainRank(List<Leaderboard> mainRank, String? myUid) {
     if (mainRank.length == 1) {
       return SizedBox(
@@ -312,6 +323,7 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
+// The build for the first, second and third rank.
   Widget _buildMainRankSpot(Leaderboard entry, int place, String? myUid) {
     final bool isFirst = place == 1;
     final double avatarSize = isFirst ? 64 : 52;

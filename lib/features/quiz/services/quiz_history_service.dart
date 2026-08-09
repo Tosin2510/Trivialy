@@ -25,6 +25,7 @@ class QuizAttempt {
 class QuizHistoryService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+// This part sends the user quiz attempt to firebase.
   Future<void> recordAttempt({
     required String uid,
     required String category,
@@ -47,6 +48,7 @@ class QuizHistoryService {
     );
   }
 
+// This part gets the user history from firebase.
   Future<List<QuizAttempt>> getHistory(String uid) async {
     final snapshot = await _firestore
       .collection('users')
@@ -70,16 +72,19 @@ class QuizHistoryService {
       }).toList();
   }
 
+// Gets the total score of the user.
   int totalPoints(List<QuizAttempt> attempts) {
     if (attempts.isEmpty) return 0;
     return attempts.fold<int>(0, (add, a) => add + a.score);
   }
 
+//Gets the best score.
   int bestScore(List<QuizAttempt> attempts) {
     if (attempts.isEmpty) return 0;
     return attempts.map((a) => a.score).reduce((a,b) => a > b ? a : b);
   }
 
+// Gets the number of consecutive days the user has played.
   int currentDayStreak(List<QuizAttempt> attempts) {
     final Set<DateTime> playedDays = attempts
       .where((a) => a.completedAt != null)
@@ -107,6 +112,7 @@ class QuizHistoryService {
     return streak;
   }
 
+// Gets the history as a stream.
   Stream<List<QuizAttempt>> historyStream(String uid) {
     return _firestore
       .collection('users')

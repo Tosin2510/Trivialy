@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivialy/features/quiz/presentation/quiz_screen.dart';
+// Handles the setup screen before the game.
 class QuizSetupScreen extends StatefulWidget {
   final Set<String> selectedCategories;
   final IconData categoryIcon;
@@ -33,6 +34,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
     super.dispose();
   }
   @override
+  // The build part.
   Widget build(BuildContext context) {
     final bool isMulti = widget.selectedCategories.length > 1;
     final String displayTitle = isMulti ? 'Mixed Quiz': widget.selectedCategories.first;
@@ -61,6 +63,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
       child: Column(
         children: [
           Expanded(
+            // Uses a scroll view to allow for scrolling especially when the phone keyboard is open.
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(24.0),
@@ -197,6 +200,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                             ),
                             onSelected: (String value) {
                               setState((){
+                                // Allows user to select time limit for regular quiz.
                                 _timeController.text = value;
                               });
                             },
@@ -362,6 +366,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
         ))
     );
   }
+  // Handles time limit parse.
 Duration _parseTimeLimit() {
   final String text = _timeController.text.trim();
   final RegExp digitsOnly = RegExp(r'\d+');
@@ -369,6 +374,7 @@ Duration _parseTimeLimit() {
   final int minutes = match != null ? int.parse(match.group(0)!) : 10;
   return Duration(minutes: minutes);
 }
+// This widget shows the rules for the quiz.
 Widget _buildRuleRow(IconData icon, String rule) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,6 +397,7 @@ Widget _buildRuleRow(IconData icon, String rule) {
     ]
   );
 }
+// This part resolve the category id for the categories.
 List<String> _resolveCategoryIds() {
   const Map<String, String> categoryNames = {
     'General Knowledge': 'general_knowledge',
@@ -404,6 +411,7 @@ List<String> _resolveCategoryIds() {
     'Food & Drink': 'food_and_drink',
   };
 
+// This part maps the categories to their ids.
   return widget.selectedCategories
      .map((title) => categoryNames[title])
      .whereType<String>()

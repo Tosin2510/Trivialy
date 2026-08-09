@@ -6,6 +6,7 @@ class WeeklyChallengeBanner extends StatelessWidget{
   const WeeklyChallengeBanner({super.key});
 
   @override
+  // The build part.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     double dynamicMargin = (screenWidth * 0.04).clamp(16.0, 24.0);
@@ -42,6 +43,7 @@ class WeeklyChallengeBanner extends StatelessWidget{
             ),
             ),
             const SizedBox(height: 16),
+            // If the users select the play button, it takes them to the weekly challenge screen.
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

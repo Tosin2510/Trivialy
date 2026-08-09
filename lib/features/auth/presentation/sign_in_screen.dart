@@ -14,6 +14,7 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _isSigningIn = false;
   String? _errorMessage;
 
+// This handles google sign in and any error that occur due to signing in.
   Future<void> _handleSignIn() async {
     setState(() {
       _isSigningIn = true;
@@ -36,6 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+// Handles the build part.
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -58,6 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
+                      // I added an asset image for the icon.
                       'assets/icon/app_icon.png',
                       width: 64,
                       height: 64,
@@ -84,6 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   const SizedBox(height: 36),
+                  // This handles any error that happens when signing in.
                   if (_errorMessage != null) ...[
                     Text(
                       _errorMessage!,
@@ -105,6 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           side: const BorderSide(color: Color(0xFFCBD5E1)),
                         ),
                       ),
+                      // Handles sign in and shows an indicator in the process of signing.
                       child: _isSigningIn
                         ? const SizedBox(
                           width: 22,
@@ -115,6 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.network(
+                              // The google sign in logo. It gets loaded from the internet.
                               'https://developers.google.com/identity/images/g-logo.png',
                               width: 20,
                               height: 20,

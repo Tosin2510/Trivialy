@@ -9,6 +9,7 @@ import 'package:trivialy/features/quiz/presentation/review_answer_screen.dart';
 import 'package:trivialy/features/quiz/services/quiz_history_service.dart';
 import 'package:trivialy/features/quiz/services/weekly_challenge_service.dart';
 
+//This is the main quiz screen.
 class QuizScreen extends StatefulWidget {
   final int amount;
   final List<String> categoryIds;
@@ -33,7 +34,7 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 class _QuizScreenState extends State<QuizScreen> {
-  final QuizController _controller = QuizController();
+  final QuizController _controller = QuizController(); // Quiz controller instance.
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _countdownTimer;
   late int _remainingSeconds;
@@ -52,6 +53,7 @@ class _QuizScreenState extends State<QuizScreen> {
     super.dispose();
   }
 
+//Handles the loading of the quiz, from the api or preloaded in the case of weekly challenges.
   Future<void> _loadQuiz() async {
     if (widget.preLoadedQuestions != null) {
       _controller.loadPreloadedQuestions(widget.preLoadedQuestions!);
@@ -62,6 +64,7 @@ class _QuizScreenState extends State<QuizScreen> {
       difficulty: widget.difficulty,
     );
   }
+  // The timer through the stop watch.
     _stopwatch..reset()..start();
     _remainingSeconds = widget.timeLimit.inSeconds;
     _timeExpired = false;
@@ -71,6 +74,7 @@ class _QuizScreenState extends State<QuizScreen> {
 }
 
 
+// This part handles the timer, when the time is up, the quiz automatically submits.
   void _onTick(Timer timer) {
     if (_remainingSeconds <= 0) {
       timer.cancel();
@@ -78,6 +82,7 @@ class _QuizScreenState extends State<QuizScreen> {
       _timeExpired = true;
       setState(() => _controller.submitQuiz());
       
+      // This is mostly for weekly challenges, it tells firebase that that week challenge by the user has been completed.
       final String? uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid != null) {
         QuizHistoryService().recordAttempt(
@@ -104,22 +109,28 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+// Handles user option selection
   void _selectOption(String option) {
     setState(() {
       _controller.answerQuestion(option);
     });
   }
+  // Allows the user to go to the question before.
   void _goToPrevious() {
     setState(() => _controller.previousQuestion());
   }
+  // Alows user to go to the next question.
   void _goToNext() {
     _stopwatch.stop();
     final bool isLast = _controller.currentQuestionIndex == _controller.questions.length - 1;
+
+    // If the user is on their last question, they can submit the quiz.
     if (isLast) {
       _countdownTimer?.cancel();
       _stopwatch.stop();
       setState(() => _controller.submitQuiz());
 
+// Tells firebase the user has completed their attempt.
       final String? uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid != null) {
         QuizHistoryService().recordAttempt(
@@ -132,6 +143,7 @@ class _QuizScreenState extends State<QuizScreen> {
           isWeeklyChallenge: widget.isWeeklyChallenge,
         );
       }
+
       if (widget.isWeeklyChallenge) {
         final String? uid = FirebaseAuth.instance.currentUser?.uid;
         if (uid != null) {
@@ -146,12 +158,14 @@ class _QuizScreenState extends State<QuizScreen> {
       setState(() => _controller.nextQuestion());
     }
   }
+  // This shows the remaining time left.
   String get _formattedRemaining {
     final int minutes = _remainingSeconds ~/ 60;
     final int seconds = _remainingSeconds % 60;
     // I used string interpolation here to evaluate the expression inside text quotes.
     return '$minutes:${seconds.toString().padLeft(2, '0')}';  
   }
+  // This gets the score percentage.
   int get _correctCount {
     int count = 0;
     for (int i= 0; i < _controller.questions.length; i++) {
@@ -164,6 +178,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int get _wrongCount => _controller.questions.length - _correctCount;
 
   @override
+  // Handles the quiz screen build, based on its various states.
   Widget build(BuildContext context) {
     switch (_controller.state) {
       case QuizState.loading:
@@ -176,6 +191,7 @@ class _QuizScreenState extends State<QuizScreen> {
         return _buildQuiz(context);
     }
   }
+  // Handles the building of the loading.
   Widget _buildLoading() {
     return const Scaffold(
       backgroundColor: Color(0xFFF1F5F9),
@@ -184,6 +200,7 @@ class _QuizScreenState extends State<QuizScreen> {
         )
     );
   }
+  // Builds the screen that pops up when there is any error.
   Widget _buildError() {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
@@ -234,6 +251,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
+  // This handles the build part for where the user is playing.
   Widget _buildQuiz(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final question = _controller.questions[_controller.currentQuestionIndex];
@@ -260,6 +278,7 @@ class _QuizScreenState extends State<QuizScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // For the building of the question card.
                   _buildQuestionCard(question, screenWidth),
                   const SizedBox(height: 20),
                   ..._buildOptions(question, selected, screenWidth),
@@ -267,12 +286,14 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
+          // allows navigation between questions.
           _buildNavigationBar(isFirst, isLast, screenWidth),
         ],
         )
         )
     );
   }
+  // This widget show the question number, the timer as well as the progress bar.
   Widget _buildHeader(double progress, bool isLast, double screenWidth) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -356,6 +377,7 @@ class _QuizScreenState extends State<QuizScreen> {
               minHeight: 6,
               backgroundColor: const Color(0xFFE2E8F0),
               valueColor: 
+              // This shows the user their progress while playing.
                 const AlwaysStoppedAnimation<Color>(Color(0xFF2563EB)),
             )
           )
@@ -363,6 +385,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
+  // Handles the building of the questions and all...
   Widget _buildQuestionCard(Question question, double screenWidth) {
     return Container(
       width: double.infinity,
@@ -405,6 +428,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+// This handles the end of the game.
   Widget _buildGameOver() {
     return GameOverScreen(
       scorePercentage: _controller.scorePercentage, 
@@ -432,6 +456,7 @@ class _QuizScreenState extends State<QuizScreen> {
       );
   }
 
+// This handles the options for each questions, the display on the screen.
   List<Widget> _buildOptions(Question question, String? selected, double screenWidth) {
     final List<String> options = question.allOptions;
     final double avatarRadius = (screenWidth * 0.037).clamp(12.0, 16.0);
@@ -503,6 +528,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
     );
   }
+  // Handles switching between questions and all...
   Widget _buildNavigationBar(bool isFirst, bool isLast, double screenWidth) {
     final double buttonHeight = (screenWidth * 0.14).clamp(48.0, 56.0);
     return Container(

@@ -7,6 +7,7 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   bool _isGoogleSignInInitialized = false;
 
+// This is a method to ensure that Google Sign-In is properly initialized.
   Future<void> _ensureGoogleSignInInitialized() async {
     if (_isGoogleSignInInitialized) return;
     await _googleSignIn.initialize();
@@ -17,6 +18,7 @@ class AuthService {
 
   User? get currentUser => _firebaseAuth.currentUser;
 
+// This part handles the actual google sign in...
   Future<UserCredential?> signInWithGoogle() async {
     await _ensureGoogleSignInInitialized();
 
@@ -27,6 +29,7 @@ class AuthService {
       final AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
+      // The users are signed in with their Google account and the sign-in credentials are returned.
       return await _firebaseAuth.signInWithCredential(credential);
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled) {
@@ -36,6 +39,7 @@ class AuthService {
     }
   }
 
+// This handles users' sign out from their google acc and from firebase.
   Future<void> signOut() async {
     await _googleSignIn.signOut();
     await _firebaseAuth.signOut();

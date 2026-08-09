@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 class HeaderBadgeIcon extends StatelessWidget{
+  // This widget handles the header badge icon and all...
   final IconData icon;
   final Color iconColor;
   final String value;
@@ -10,6 +11,7 @@ class HeaderBadgeIcon extends StatelessWidget{
     required this.value,
   });
   @override
+  // The build part.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     double innerHorizontalPadding = (screenWidth * 0.025).clamp(8.0, 14.0);

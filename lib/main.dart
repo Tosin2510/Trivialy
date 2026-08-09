@@ -13,6 +13,7 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+// The main build of the entire application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

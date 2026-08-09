@@ -13,6 +13,8 @@ class ReviewAnswerScreen extends StatelessWidget {
   });
 
   @override
+
+  // The build part.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
 
@@ -66,6 +68,7 @@ class ReviewAnswerScreen extends StatelessWidget {
         ))
     );
   }
+  // The card shows the question, the answer the user select and the correct answer.
   Widget _buildQuestionReviewCard(int index, double screenWidth) {
     final Question question = questions[index];
     final String? userAnswer = selectedAnswers[index];
@@ -114,6 +117,7 @@ class ReviewAnswerScreen extends StatelessWidget {
                 )
               ),
               const Spacer(),
+              // Displays an icon for either correct or wrong answer.
               Icon(
                 !wasAnswered
                   ? Icons.remove_circle_outline_rounded
@@ -165,6 +169,7 @@ class ReviewAnswerScreen extends StatelessWidget {
       ),
     );
   }
+  // Handles the answer row for the user answer as well as the correct one.
   Widget _buildAnswerRow({
     required String label,
     required String answer,

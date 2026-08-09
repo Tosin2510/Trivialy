@@ -12,6 +12,7 @@ class CustomBottomNavBar extends StatelessWidget {
     });
 
   @override
+  // This handles the build for both big and small screen size.
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     double iconSize = (screenWidth * 0.065).clamp(22.0, 28.0);
@@ -19,6 +20,7 @@ class CustomBottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
+      // This part lets users know which screen they tap and are currently on...cos the colours will be different.
       selectedItemColor: const Color(0xFF2563EB),
       unselectedItemColor: Colors.grey.withValues(alpha: 0.6),
       currentIndex: 0,
@@ -33,6 +35,7 @@ class CustomBottomNavBar extends StatelessWidget {
         fontWeight: FontWeight.w600,
       ),
       items: [
+        // This part holds the icons and the labels for the bottom nav bar.
         BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.emoji_events_rounded), label: 'Ranks'),
         BottomNavigationBarItem(icon: Icon(Icons.person_outline_rounded), label: 'Profile')

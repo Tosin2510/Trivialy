@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// This stateless widget handle the header badge in itself.
 class HeaderBadge extends StatelessWidget{
   final String icon;
   final String value;
@@ -7,6 +8,7 @@ class HeaderBadge extends StatelessWidget{
     required this.icon,
     required this.value,
   });
+  // The build part...
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;

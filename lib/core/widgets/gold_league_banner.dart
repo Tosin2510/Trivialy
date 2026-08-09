@@ -22,6 +22,7 @@ class _GoldLeagueBannerState extends State<GoldLeagueBanner> {
     _load();
   }
 
+// This part loads a user's rank for the leaderboard from firebase.
   Future<void> _load() async {
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
@@ -29,6 +30,7 @@ class _GoldLeagueBannerState extends State<GoldLeagueBanner> {
       return;
     }
 
+// This is the part that fetch the rank from firebase database.
     final String weekId = _service.currentWeekId;
     final snapshot = await FirebaseFirestore.instance
       .collection('weekly_leaderboard')
@@ -45,6 +47,7 @@ class _GoldLeagueBannerState extends State<GoldLeagueBanner> {
       }
     }
 
+// This part first checks if the widget is still on screen, then put the rank on.
     if (mounted) {
       setState(() {
         _rank = rank;
@@ -53,12 +56,15 @@ class _GoldLeagueBannerState extends State<GoldLeagueBanner> {
     }
   }
 
+// This calculates the days left until the leaderboard reset again.
   int _daysUntilReset() {
     final DateTime nowUtc = DateTime.now().toUtc();
     final int daysUntil = (DateTime.monday - nowUtc.weekday + 7) % 7;
     return daysUntil == 0 ? 7 : daysUntil;
   }
 
+// This part handles the responsive build for the leaderboard
+// So that it doesn't look awkward on diff screen sizes.
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;

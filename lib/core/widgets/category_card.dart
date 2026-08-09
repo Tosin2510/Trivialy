@@ -18,6 +18,7 @@ class CategoryCard extends StatelessWidget{
     this.onTap,
     this.isSelected = false,
   });
+  // This handles the build for the category card widget.
   @override
     Widget build(BuildContext context) {
       final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -66,6 +67,7 @@ class CategoryCard extends StatelessWidget{
               ),
             ),
       ),
+      // This part handles the multiple selection part...
       if (isMultiSelect)
       Positioned(
         top: 8,
@@ -87,6 +89,7 @@ class CategoryCard extends StatelessWidget{
                   width: 2,
                 ),
               ),
+              // This part handles the checking for the multiple selection to show what part has been selected.
               child: isSelected
                 ? const Icon(
                   Icons.check_rounded,

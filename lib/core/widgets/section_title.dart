@@ -10,6 +10,7 @@ class SectionTitle extends StatelessWidget{
   final VoidCallback? onViewAllTap;
   final bool isMultiSelect;
   final ValueChanged<bool> onToggleMode;
+
   const SectionTitle({
     super.key,
     required this.title,
@@ -21,6 +22,7 @@ class SectionTitle extends StatelessWidget{
     required this.isMultiSelect,
     required this.onToggleMode,
   });
+  // The build.
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -47,6 +49,7 @@ class SectionTitle extends StatelessWidget{
                   ),
                 ),
                 const SizedBox(width: 4),
+                // Aallows users to pick between single or multiple category.
                 PopupMenuButton<bool>(
                   initialValue: isMultiSelect,
                   tooltip: 'Selection Mode',
@@ -66,6 +69,7 @@ class SectionTitle extends StatelessWidget{
                         child: Row(
                           children: [
                             Icon(
+                              // If the user is selecting multiple category, a check circle part should show.
                               !isMultiSelect ? Icons.check_circle_rounded : Icons.circle_outlined,
                               color: !isMultiSelect ? const Color(0xFF2563EB) : Colors.black26,
                               size: 20,                       
@@ -103,6 +107,7 @@ class SectionTitle extends StatelessWidget{
               ],
               ),
           ),
+          // If the user clicks on the view all button, then all the categories should show.
             if(hasViewAll)
             TextButton(
               onPressed: onViewAllTap,
